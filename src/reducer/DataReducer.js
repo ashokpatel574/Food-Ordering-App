@@ -21,14 +21,14 @@ export const initialState = {
 export const DataReducer = (state, action) => {
   switch (action.type) {
     case "selectCuisine": {
-      const cuisineTypeId = [...state.cuisineData].find((cuisineItem) => {
-        return cuisineItem.name === action.payload;
+      const cuisineTypeId = state.cuisineData?.find((cuisineItem) => {
+        return cuisineItem?.name === action?.payload;
       }).id;
 
       return {
         ...state,
-        selectedRestaurants: [...state.restaurantsData].find(
-          (restItem) => restItem.cuisine_id === cuisineTypeId
+        selectedRestaurants: state.restaurantsData?.find(
+          (restItem) => restItem?.cuisine_id === cuisineTypeId
         ),
       };
     }
@@ -36,29 +36,29 @@ export const DataReducer = (state, action) => {
     case "AddRating": {
       return {
         ...state,
-        restaurantsData: [...state.restaurantsData].map((restItem) => {
-          return restItem.id === state.selectedRestaurants.id
+        restaurantsData: state.restaurantsData?.map((restItem) => {
+          return restItem?.id === state?.selectedRestaurants.id
             ? {
                 ...restItem,
-                ratings: [...restItem.ratings, { ...action.payload }],
+                ratings: [...restItem?.ratings, { ...action.payload }],
                 averageRating: getAvgRating(
-                  restItem.averageRating,
-                  restItem.ratings.length,
-                  action.payload.rating
+                  restItem?.averageRating,
+                  restItem?.ratings.length,
+                  action?.payload.rating
                 ),
               }
             : restItem;
         }),
         selectedRestaurants: {
-          ...state.selectedRestaurants,
+          ...state?.selectedRestaurants,
           ratings: [
-            ...state.selectedRestaurants.ratings,
-            { ...action.payload },
+            ...state?.selectedRestaurants?.ratings,
+            { ...action?.payload },
           ],
           averageRating: getAvgRating(
-            state.selectedRestaurants.averageRating,
-            state.selectedRestaurants.ratings.length,
-            action.payload.rating
+            state?.selectedRestaurants?.averageRating,
+            state?.selectedRestaurants?.ratings.length,
+            action.payload?.rating
           ),
         },
         isModalOpen: false,
